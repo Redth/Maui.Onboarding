@@ -165,6 +165,10 @@ properties:
       allowPrerelease: true
     settings:
       GetScript: |
+        # Empty
+      TestScript: |
+        # Empty
+      SetScript: |
         & '${WinGetConfigRoot}/InstallVSIXExtensions.ps1 Redth.AndroidKeystoreSignatureTool'
         & '${WinGetConfigRoot}/InstallVSIXExtensions.ps1 mhutch.MSBuildEditor'
   - resource: PSDscResources/Script
