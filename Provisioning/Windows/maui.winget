@@ -121,15 +121,6 @@ properties:
       id: "9PGCV4V3BK4W"
       source: msstore
     id: 9PGCV4V3BK4W
-  - resource: Microsoft.WinGet.DSC/WinGetPackage
-    directives:
-      description: Installing ShiningLight.OpenSSL.Dev
-      allowPrerelease: true
-      securityContext: elevated
-    settings:
-      id: "ShiningLight.OpenSSL.Dev"
-      source: winget
-    id: ShiningLight.OpenSSL.Dev
   - resource: Microsoft.Windows.Developer/DeveloperMode
     directives:
       description: Enable Developer Mode
