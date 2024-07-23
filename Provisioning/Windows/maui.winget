@@ -138,6 +138,7 @@ properties:
       id: Microsoft.VisualStudio.2022.Community
     source: winget
   - resource: Microsoft.VisualStudio.DSC/VSComponents
+    id: vsComponents
     dependsOn:
       - vsPackage
     directives:
@@ -146,6 +147,33 @@ properties:
     settings:
       productId: Microsoft.VisualStudio.Product.Community
       channelId: VisualStudio.17.Release
-      vsConfigFile: '${WinGetConfigRoot}\.vsconfig'
+      vsConfigFile: '${WinGetConfigRoot}/.vsconfig'
       includeRecommended: true
+  - resource: PSDscResources/Script
+    dependsOn:
+      - vsPackage
+    directives:
+      description: Runs the InstallVSIXExtensions PowerShell
+      allowPrerelease: true
+    settings:
+      GetScript: |
+        & '${WinGetConfigRoot}/InstallVSIXExtensions.ps1 Redth.AndroidKeystoreSignatureTool'
+        & '${WinGetConfigRoot}/InstallVSIXExtensions.ps1 mhutch.MSBuildEditor'
+  - resource: PSDscResources/Script
+    dependsOn:
+      - Microsoft.VisualStudioCode
+    id: VSCode-Extensions
+    directives:
+      description: Install VSCode extensions
+      allowPrerelease: false
+    settings:
+      GetScript: |
+        # Your custom PowerShell code to check app configuration
+      TestScript: |
+        return $false
+      SetScript: |
+        # PowerShell script commands to install VSCode extensions
+        Start-Process -WindowStyle Hidden code "--install-extension ms-dotnettools.csdevkit" -Wait
+        Start-Process -WindowStyle Hidden code "--install-extension ms-dotnettools.dotnet-maui" -Wait 
+      
   configurationVersion: 0.2.0
