@@ -4,6 +4,14 @@
 
 properties:
   resources:
+  - resource: Microsoft.Windows.Developer/WindowsExplorer
+    directives:
+      description: Modify Windows Explorer settings
+      allowPrerelease: true
+    settings:
+      FileExtensions: Show
+      HiddenFiles: Show
+      RestartExplorer: True
   - resource: Microsoft.WinGet.DSC/WinGetPackage
     directives:
       description: Installing GitHub.GitHubDesktop
