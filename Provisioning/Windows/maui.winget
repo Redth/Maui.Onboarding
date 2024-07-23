@@ -169,8 +169,8 @@ properties:
       TestScript: |
         return $false
       SetScript: |
-        & '${WinGetConfigRoot}/InstallVSIXExtensions.ps1 Redth.AndroidKeystoreSignatureTool'
-        & '${WinGetConfigRoot}/InstallVSIXExtensions.ps1 mhutch.MSBuildEditor'
+        Start-Process pwsh '${WinGetConfigRoot}/InstallVSIXExtensions.ps1 Redth.AndroidKeystoreSignatureTool' -Wait
+        Start-Process pwsh '${WinGetConfigRoot}/InstallVSIXExtensions.ps1 mhutch.MSBuildEditor' -Wait
   - resource: PSDscResources/Script
     dependsOn:
       - Microsoft.VisualStudioCode
