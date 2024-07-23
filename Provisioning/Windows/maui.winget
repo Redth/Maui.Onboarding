@@ -167,7 +167,7 @@ properties:
       GetScript: |
         # Empty
       TestScript: |
-        # Empty
+        return $false
       SetScript: |
         & '${WinGetConfigRoot}/InstallVSIXExtensions.ps1 Redth.AndroidKeystoreSignatureTool'
         & '${WinGetConfigRoot}/InstallVSIXExtensions.ps1 mhutch.MSBuildEditor'
