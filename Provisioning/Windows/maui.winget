@@ -14,6 +14,23 @@ properties:
       RestartExplorer: True
   - resource: Microsoft.WinGet.DSC/WinGetPackage
     directives:
+      description: Installing PowerShell Core
+      allowPrerelease: true
+      securityContext: elevated
+    settings:
+      id: "Microsoft.PowerShell"
+      source: winget
+    id: Microsoft.PowerShell
+  - resource: PSDscResources/WindowsOptionalFeature
+    id: "HyperV"
+    directives:
+      description: Install Hyper-V features
+      securityContext: elevated
+    settings:
+      Name: Microsoft-Hyper-V-All
+      Ensure: Present
+  - resource: Microsoft.WinGet.DSC/WinGetPackage
+    directives:
       description: Installing GitHub.GitHubDesktop
       allowPrerelease: true
       securityContext: current
@@ -155,22 +172,8 @@ properties:
     settings:
       productId: Microsoft.VisualStudio.Product.Community
       channelId: VisualStudio.17.Release
-      vsConfigFile: '${WinGetConfigRoot}/.vsconfig'
+      vsConfigFile: '${WinGetConfigRoot}\.vsconfig'
       includeRecommended: true
-  - resource: PSDscResources/Script
-    dependsOn:
-      - vsPackage
-    directives:
-      description: Runs the InstallVSIXExtensions PowerShell
-      allowPrerelease: true
-    settings:
-      GetScript: |
-        # Empty
-      TestScript: |
-        return $false
-      SetScript: |
-        Start-Process pwsh '${WinGetConfigRoot}/InstallVSIXExtensions.ps1 Redth.AndroidKeystoreSignatureTool' -Wait
-        Start-Process pwsh '${WinGetConfigRoot}/InstallVSIXExtensions.ps1 mhutch.MSBuildEditor' -Wait
   - resource: PSDscResources/Script
     dependsOn:
       - Microsoft.VisualStudioCode
@@ -185,7 +188,7 @@ properties:
         return $false
       SetScript: |
         # PowerShell script commands to install VSCode extensions
-        Start-Process -WindowStyle Hidden code "--install-extension ms-dotnettools.csdevkit" -Wait
-        Start-Process -WindowStyle Hidden code "--install-extension ms-dotnettools.dotnet-maui" -Wait 
+        powershell -ExecutionPolicy Bypass code '--install-extension ms-dotnettools.csdevkit --pre-release'
+        powershell -ExecutionPolicy Bypass code '--install-extension ms-dotnettools.dotnet-maui --pre-release'
       
   configurationVersion: 0.2.0
