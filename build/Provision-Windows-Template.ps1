@@ -1,12 +1,4 @@
-
-#Requires -RunAsAdministrator
-#Requires -PSEdition Core
-
-if ($PSVersionTable.PSEdition -ne 'Core')
-{
-    Write-Error 'Please run the script in PowerShell Core (pwsh)'
-    exit 1   
-}
+powershell -Command { & winget install Microsoft.PowerShell --accept-package-agreements --accept-source-agreements --nowarn } -Wait
 
 $workingDir = (Join-Path $env:Temp 'mauiprovision')
 
@@ -18,17 +10,19 @@ if (Test-Path $workingDir)
 New-Item -Path $workingDir -Type Directory
 
 $vsconfigBase64 = "[[VSCONFIG]]"
-$wingetConfigBase64 = "[[WINGETCONFIG]]"
+$elevatedWingetConfigBase64 = "[[ELEVATEDWINGET]]"
+$userWingetConfigBase64 = "[[USERWINGET]]"
 
 $vsconfig = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($vsconfigBase64))
-$wingetConfig = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($wingetConfigBase64))
+$elevatedWingetConfig = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($elevatedWingetConfigBase64))
+$userWingetConfig = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($userWingetConfigBase64))
 
+$elevatedWingetConfigPath = (Join-Path $workingDir 'elevated.winget')
+$userWingetConfigPath = (Join-Path $workingDir 'user.winget')
 
 Set-Content -Path (Join-Path $workingDir '.vsconfig') -Value $vsconfig
-Set-Content -Path (Join-Path $workingDir 'maui.winget') -Value $wingetConfig
+Set-Content -Path $elevatedWingetConfigPath -Value $elevatedWingetConfig
+Set-Content -Path $userWingetConfigPath -Value $userWingetConfig
 
-
-Install-Module -Name Microsoft.WinGet.Configuration -AllowPrerelease
-$results = (Get-WinGetConfiguration -File (Join-Path $workingDir 'maui.winget') | Invoke-WinGetConfiguration)
-
-Write-Information $results.UnitResults
+Start-Process pwsh -ArgumentList "-Command &{ Install-Module -Name Microsoft.WinGet.Configuration -AllowPrerelease; Write-Information (Get-WinGetConfiguration -File $elevatedWingetConfigPath | Invoke-WinGetConfiguration -AcceptConfigurationAgreements).UnitResults }" -Verb runAs -Wait
+Start-Process pwsh -ArgumentList "-Command &{ Install-Module -Name Microsoft.WinGet.Configuration -AllowPrerelease; Write-Information (Get-WinGetConfiguration -File $userWingetConfigPath | Invoke-WinGetConfiguration -AcceptConfigurationAgreements).UnitResults }" -Wait

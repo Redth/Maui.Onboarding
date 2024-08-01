@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=https://aka.ms/configuration-dsc-schema/0.2
+
+properties:
+  resources:
+  - resource: PSDscResources/Script
+    id: VSCode-Extensions
+    directives:
+      description: Install VSCode extensions
+      allowPrerelease: false
+    settings:
+      GetScript: |
+        # Your custom PowerShell code to check app configuration
+      TestScript: |
+        return $false
+      SetScript: |
+        # PowerShell script commands to install VSCode extensions
+        pwsh -ExecutionPolicy Bypass code '--install-extension ms-dotnettools.csdevkit --pre-release'
+        pwsh -ExecutionPolicy Bypass code '--install-extension ms-dotnettools.dotnet-maui --pre-release'
+      
+  configurationVersion: 0.2.0
