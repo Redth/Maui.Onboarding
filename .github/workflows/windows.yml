@@ -37,27 +37,15 @@ jobs:
         with:
           name: ProvisionWindows.ps1
           path: ProvisionWindows.ps1
-    
-      - name: Version
-        run: echo "::set-output name=version::$(echo ${GITHUB_REF:10})"
-        id: version
-      - name: Create Release
-        uses: actions/create-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        id: create_release
-        with:
-          draft: false
-          prerelease: false
-          release_name: ${{ steps.version.outputs.version }}
-          tag_name: ${{ github.ref }}
-          body_path: CHANGELOG.md
+      
+      # Attach the file to the release if it is a release event
       - name: Release Artifacts
         uses: actions/upload-release-asset@v1
-        if: startsWith(github.ref, 'refs/tags/')
+        if: github.event_name == 'release'
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ github.event.release.upload_url }}
           asset_path: ProvisionWindows.ps1
           asset_name: ProvisionWindows.ps1
           asset_content_type: text/plain
