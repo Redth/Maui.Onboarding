@@ -30,7 +30,7 @@ jobs:
         shell: pwsh
         run: |
           cd .\build\
-          & Generate-Windows-Provisioning-Script.ps1
+          & .\Generate-Windows-Provisioning-Script.ps1
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4.3.4
