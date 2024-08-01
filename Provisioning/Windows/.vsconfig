@@ -99,9 +99,6 @@
     "tvos"
   ],
   "extensions": [
-    "https://marketplace.visualstudio.com/items?itemName=ProjectReunion.MicrosoftSingleProjectMSIXPackagingToolsDev17",
-    "https://marketplace.visualstudio.com/items?itemName=mhutch.MSBuildEditor",
-    "https://marketplace.visualstudio.com/items?itemName=SharpDevelopTeam.ILSpy2022",
-    "https://marketplace.visualstudio.com/items?itemName=Redth.AndroidKeystoreSignatureTool"
+    "https://marketplace.visualstudio.com/items?itemName=ProjectReunion.MicrosoftSingleProjectMSIXPackagingToolsDev17"
   ]
 }
