@@ -40,12 +40,7 @@ jobs:
       
       # Attach the file to the release if it is a release event
       - name: Release Artifacts
-        uses: actions/upload-release-asset@v1
         if: github.event_name == 'release'
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
+        uses: softprops/action-gh-release@v2
         with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ProvisionWindows.ps1
-          asset_name: ProvisionWindows.ps1
-          asset_content_type: text/plain
+          files: ProvisionWindows.ps1
