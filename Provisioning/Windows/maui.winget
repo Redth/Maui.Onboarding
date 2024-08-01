@@ -20,11 +20,27 @@ properties:
     settings:
       id: "Microsoft.PowerShell"
       source: winget
-    id: Microsoft.PowerShell
+    id: Microsoft.PowerShell'
+  - resource: PSDscResources/WindowsOptionalFeature
+    id: "VirtualMachinePlatform"
+    directives:
+      description: Enable Optional Feature VirtualMachinePlatform
+      securityContext: elevated
+    settings:
+      Name: VirtualMachinePlatform
+      Ensure: Present
+  - resource: PSDscResources/WindowsOptionalFeature
+    id: "HypervisorPlatform"
+    directives:
+      description: Enable Optional Feature HypervisorPlatform
+      securityContext: elevated
+    settings:
+      Name: HypervisorPlatform
+      Ensure: Present
   - resource: PSDscResources/WindowsOptionalFeature
     id: "HyperV"
     directives:
-      description: Install Hyper-V features
+      description: Enable Optional Feature Hyper-V
       securityContext: elevated
     settings:
       Name: Microsoft-Hyper-V-All
