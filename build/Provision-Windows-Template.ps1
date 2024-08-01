@@ -1,4 +1,4 @@
-powershell -Command { & winget install Microsoft.PowerShell --accept-package-agreements --accept-source-agreements --nowarn } -Wait
+Start-Process winget -ArgumentList "install Microsoft.PowerShell --accept-package-agreements --accept-source-agreements --nowarn" -Wait
 
 $workingDir = (Join-Path $env:Temp 'mauiprovision')
 
